@@ -172,21 +172,21 @@ const SUBSCRIPTIONS_DATA = {
         name: "RetailLift Basic Subscription",
         monthlyPrice: 25000,
         yearlyPrice: 250000,
-        cameras: "Up to 3"
+        cameras: "3"
     },
     extended: {
         id: "sub-extended",
         name: "RetailLift Extended Subscription",
         monthlyPrice: 40000,
         yearlyPrice: 400000,
-        cameras: "Up to 5"
+        cameras: "5"
     },
     pro: {
         id: "sub-pro",
         name: "RetailLift Pro Subscription",
         monthlyPrice: 65000,
         yearlyPrice: 650000,
-        cameras: "Up to 10"
+        cameras: "10"
     }
 };
 

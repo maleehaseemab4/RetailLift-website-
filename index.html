@@ -24,6 +24,7 @@
             <ul class="nav-links">
                 <li><a href="#dashboard" class="nav-link active" id="nav-dashboard">Dashboard</a></li>
                 <li><a href="#results" class="nav-link" id="nav-results">Performance</a></li>
+                <li><a href="#pricing" class="nav-link" id="nav-pricing">Pricing</a></li>
                 <li><a href="#products" class="nav-link" id="nav-products">Products</a></li>
                 <li><a href="#contact" class="nav-link" id="nav-contact">Contact</a></li>
             </ul>
@@ -223,6 +224,203 @@
                         <!-- Mock historical feeds prepended by JS -->
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2.5: PRICING PLANS -->
+    <section id="pricing">
+        <div class="section-header">
+            <span class="section-tag">Subscription Plans</span>
+            <h2 class="section-title">Select Your Retail Protection Plan</h2>
+            <p class="section-subtitle">Scale your store security dynamically with our flexible subscription plans. Choose the tier that matches your camera footprint.</p>
+            
+            <!-- Billing Cycle Toggle Switch -->
+            <div class="billing-toggle-wrapper">
+                <span class="toggle-label active" id="toggle-label-monthly">Monthly Billing</span>
+                <button class="billing-toggle-btn" id="billing-toggle-btn" aria-label="Toggle Billing Cycle">
+                    <span class="toggle-slider"></span>
+                </button>
+                <span class="toggle-label" id="toggle-label-yearly">
+                    Yearly Billing <span class="discount-badge">Save ~17%</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="pricing-container">
+            <div class="pricing-grid">
+                
+                <!-- BASIC PLAN CARD -->
+                <div class="pricing-card basic-tier" id="plan-basic">
+                    <div class="pricing-card-header">
+                        <h3 class="plan-name">BASIC</h3>
+                        <p class="plan-desc">Perfect for Small Stores</p>
+                    </div>
+                    
+                    <div class="plan-features">
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-camera"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">3 cameras</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-user-shield"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">Person detection</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-microphone"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">Audio detection</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-border-all"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">Zones</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plan-price-section">
+                        <span class="price-title">Price</span>
+                        <div class="plan-main-price" id="basic-main-price">
+                            <span class="currency">PKR</span> <span class="amount">25,000</span> <span class="period">/month</span>
+                        </div>
+                        <div class="plan-alt-price" id="basic-alt-price">
+                            PKR 250,000 /year (save PKR 50,000)
+                        </div>
+                    </div>
+
+                    <button class="btn-select-plan" data-plan="basic">
+                        <i class="fa-solid fa-plus"></i> Add to Quote
+                    </button>
+                </div>
+
+                <!-- EXTENDED PLAN CARD (MOST POPULAR) -->
+                <div class="pricing-card extended-tier featured-tier" id="plan-extended">
+                    <div class="popular-badge">MOST POPULAR</div>
+                    <div class="pricing-card-header">
+                        <h3 class="plan-name">EXTENDED</h3>
+                        <p class="plan-desc">Ideal for Growing Businesses</p>
+                    </div>
+                    
+                    <div class="plan-features">
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-camera"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">5 cameras</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-user-shield"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">Person detection</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-microphone"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">Audio detection</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-border-all"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">Zones</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plan-price-section">
+                        <span class="price-title">Price</span>
+                        <div class="plan-main-price" id="extended-main-price">
+                            <span class="currency">PKR</span> <span class="amount">40,000</span> <span class="period">/month</span>
+                        </div>
+                        <div class="plan-alt-price" id="extended-alt-price">
+                            PKR 400,000 /year (save PKR 80,000)
+                        </div>
+                    </div>
+
+                    <button class="btn-select-plan" data-plan="extended">
+                        <i class="fa-solid fa-plus"></i> Add to Quote
+                    </button>
+                </div>
+
+                <!-- PRO PLAN CARD -->
+                <div class="pricing-card pro-tier" id="plan-pro">
+                    <div class="pricing-card-header">
+                        <h3 class="plan-name">PRO</h3>
+                        <p class="plan-desc">For Large Stores & Chains</p>
+                    </div>
+                    
+                    <div class="plan-features">
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-camera"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">10 cameras</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-user-shield"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">Person detection</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-microphone"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">Audio detection</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-border-all"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">Zones</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-headset"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">Priority Support</span>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon"><i class="fa-solid fa-chart-simple"></i></span>
+                            <div class="feature-text">
+                                <span class="feature-label">Analytics Dashboard</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plan-price-section">
+                        <span class="price-title">Price</span>
+                        <div class="plan-main-price" id="pro-main-price">
+                            <span class="currency">PKR</span> <span class="amount">65,000</span> <span class="period">/month</span>
+                        </div>
+                        <div class="plan-alt-price" id="pro-alt-price">
+                            PKR 650,000 /year (save PKR 130,000)
+                        </div>
+                    </div>
+
+                    <button class="btn-select-plan" data-plan="pro">
+                        <i class="fa-solid fa-plus"></i> Add to Quote
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Bottom pricing notes -->
+            <div class="pricing-footer-notes">
+                <p class="pricing-included-info">
+                    <span class="check-badge"><i class="fa-solid fa-circle-check"></i></span>
+                    All plans include real-time alerts, intelligent shoplifting detection and easy-to-use dashboard.
+                </p>
+                <p class="pricing-disclaimer">
+                    * Prices are in Pakistani Rupees (PKR) • Taxes may apply
+                </p>
             </div>
         </div>
     </section>
