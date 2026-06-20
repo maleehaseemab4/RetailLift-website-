@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetailLift | Real-Time AI Shoplifting Detection System</title>
+    <meta name="description" content="RetailLift is a next-generation AI-powered shoplifting detection system. Stop shrinkage and protect your store in real-time with computer vision.">
+    <link rel="stylesheet" href="index.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- HEADER / NAVIGATION -->
+    <header id="site-header">
+        <div class="nav-container">
+            <a href="#dashboard" class="logo-link">
+                <span class="logo-container">
+                    <img src="assets/logo.png" alt="RetailLift Logo" class="logo-img">
+                </span>
+                <span class="logo-text">RetailLift</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="#dashboard" class="nav-link active" id="nav-dashboard">Dashboard</a></li>
+                <li><a href="#results" class="nav-link" id="nav-results">Performance</a></li>
+                <li><a href="#products" class="nav-link" id="nav-products">Products</a></li>
+                <li><a href="#contact" class="nav-link" id="nav-contact">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="cart-icon-btn" id="cart-toggle-btn" aria-label="Open Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-count" id="cart-item-count">0</span>
+                </button>
+                <a href="#products" class="btn-cta">
+                    <i class="fa-solid fa-bolt"></i> Get Protected
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 1: DASHBOARD / HERO -->
+    <section id="dashboard">
+        <div class="hero-dashboard-grid">
+            <div class="dashboard-intro">
+                <span class="section-tag">AI-Powered Cybersecurity</span>
+                <h1>Stop Shrinkage <span>In Real-Time</span> With Computer Vision</h1>
+                <p>RetailLift integrates seamlessly with your existing security cameras to detect suspicious behaviors and shoplifting events instantly, notifying your staff before the theft occurs.</p>
+                <div class="dashboard-intro-actions">
+                    <a href="#products" class="btn-cta">
+                        <i class="fa-solid fa-sliders"></i> Configure Your System
+                    </a>
+                    <a href="#results" class="btn-secondary">
+                        <i class="fa-solid fa-chart-line"></i> View Results
+                    </a>
+                </div>
+            </div>
+
+            <!-- Interactive HUD Lens widget -->
+            <div class="lens-hud-widget">
+                <div class="hud-ring-outer">
+                    <!-- Rotating HUD SVG Rings -->
+                    <svg class="hud-svg-ring" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(0, 210, 255, 0.3)" stroke-width="0.5" stroke-dasharray="10 5" />
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(59, 130, 246, 0.4)" stroke-width="1.5" stroke-dasharray="1 15 20 8" />
+                    </svg>
+                    <svg class="hud-svg-ring inner" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(0, 210, 255, 0.4)" stroke-width="1" stroke-dasharray="40 10" />
+                        <circle cx="50" cy="50" r="35" fill="none" stroke="rgba(255, 255, 255, 0.15)" stroke-width="0.5" />
+                    </svg>
+                    <svg class="hud-svg-ring innermost" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="28" fill="none" stroke="rgba(0, 210, 255, 0.6)" stroke-width="1.5" stroke-dasharray="5 5 15 5" />
+                    </svg>
+
+                    <!-- Camera Lens Image -->
+                    <div class="lens-image-container">
+                        <img src="assets/camera_lens.png" alt="RetailLift AI Camera Lens" class="lens-image">
+                        <div class="lens-laser-sweep"></div>
+                    </div>
+                </div>
+                <div class="lens-hud-labels">
+                    <div class="lens-status-text" id="hud-status-text">CAMERA NODE L19: ONLINE</div>
+                    <div class="lens-sub-text" id="hud-sub-text">AI ACTIVE (ACC: 92% | P: 90% | R: 89% | F1: 89%)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Camera Simulator Feed screen -->
+        <div class="camera-simulator-container">
+            <div class="simulator-header">
+                <div class="status-indicator">
+                    <span class="status-dot" id="sim-status-dot"></span>
+                    <span id="sim-status-text">LIVE FEED: SUSPICIOUS ACTIVITY DETECTED</span>
+                </div>
+                <div>FEED ID: CAM-04-MAIN_AISLE // RESOLUTION: 4K UHD</div>
+            </div>
+            <div class="simulator-screen">
+                <div class="feed-overlay-text">
+                    [SECURE SYSTEM CORE V4.2]<br>
+                    TIME: <span id="sim-time">15:04:23</span><br>
+                    FPS: 60.2 // LATENCY: 1.1ms<br>
+                    OBJECT DETECTED: <span id="sim-object-count">3</span>
+                </div>
+                <div class="grid-overlay"></div>
+                <div class="scanning-bar"></div>
+                <canvas id="feed-canvas" class="feed-canvas"></canvas>
+            </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <h3>Suspicious Behavior AI</h3>
+                <p>Advanced neural networks recognize patterns like product concealment, repeated pacing, and blindspot lingering in real-time.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <i class="fa-solid fa-bell"></i>
+                </div>
+                <h3>Instant Staff Alerts</h3>
+                <p>Receive push notifications, images, and short video clips on staff mobile devices or earpieces in under 1.2 seconds.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+                <h3>Cloud Dashboard</h3>
+                <p>Track metrics, view shrinkage data, audit past incidents, and manage multiple store locations from an elegant centralized portal.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: RESULTS SECTION -->
+    <section id="results">
+        <div class="section-header">
+            <span class="section-tag">Performance Analytics</span>
+            <h2 class="section-title">Validated Retail Performance</h2>
+            <p class="section-subtitle">See how RetailLift has performed in real-world retail deployments, reducing shrinkage and saving thousands in store revenue.</p>
+        </div>
+
+        <div class="results-dashboard">
+            <!-- KPI Cards -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <span class="kpi-title">Shrinkage Reduced</span>
+                    <span class="kpi-value" id="kpi-shrinkage">84.6%</span>
+                    <span class="kpi-trend positive">
+                        <i class="fa-solid fa-arrow-trend-up"></i> +12% from last quarter
+                    </span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">Inference Accuracy</span>
+                    <span class="kpi-value" id="kpi-accuracy">92.0%</span>
+                    <span class="kpi-trend positive" style="color: var(--brand-glow); font-family: monospace; font-size: 0.75rem; margin-top: 0.4rem;">
+                        P: 90% | R: 89% | F1: 89%
+                    </span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">Avg. Latency</span>
+                    <span class="kpi-value" id="kpi-latency">1.18s</span>
+                    <span class="kpi-trend positive">
+                        <i class="fa-solid fa-arrow-trend-down"></i> -0.2s optimization
+                    </span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">Monitored Hours</span>
+                    <span class="kpi-value" id="kpi-hours">15,400+</span>
+                    <span class="kpi-trend neutral">
+                        <i class="fa-solid fa-circle"></i> Continuous protection
+                    </span>
+                </div>
+            </div>
+
+            <!-- Analytics Graph & Alert Logs Grid -->
+            <div class="analytics-panel-grid">
+                <!-- SVG Chart Card -->
+                <div class="chart-card">
+                    <div class="chart-header-row">
+                        <div class="chart-title">
+                            <h3 id="chart-main-title">Detections Over Time</h3>
+                            <p id="chart-sub-title">Weekly real-time shoplifting events detected & prevented</p>
+                        </div>
+                        <div class="chart-tabs">
+                            <button class="chart-tab-btn active" id="tab-detections">Detections</button>
+                            <button class="chart-tab-btn" id="tab-shrinkage">Shrinkage Saved</button>
+                            <button class="chart-tab-btn" id="tab-accuracy">AI Accuracy</button>
+                        </div>
+                    </div>
+                    <div class="chart-viewport">
+                        <div class="chart-tooltip" id="chart-tooltip"></div>
+                        <svg class="svg-chart" id="svg-chart" viewBox="0 0 600 300">
+                            <defs>
+                                <linearGradient id="chart-gradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#00f2fe" />
+                                    <stop offset="100%" stop-color="#4facfe" />
+                                </linearGradient>
+                                <linearGradient id="chart-area-gradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.4" />
+                                    <stop offset="100%" stop-color="#00f2fe" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+                            <!-- Grid lines are dynamically generated by JS -->
+                            <g id="chart-grid"></g>
+                            <path class="chart-area" id="chart-area" d="" />
+                            <path class="chart-line" id="chart-line" d="" />
+                            <g id="chart-dots"></g>
+                            <g id="chart-labels"></g>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Alert History Logs Card -->
+                <div class="history-card">
+                    <div class="history-header">
+                        <h3>Live AI Alert Stream</h3>
+                        <p>Simulating real-time security events captured by RetailLift nodes</p>
+                    </div>
+                    <div class="history-list" id="history-alert-list">
+                        <!-- Mock historical feeds prepended by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: PRODUCT CATALOG -->
+    <section id="products">
+        <div class="section-header">
+            <span class="section-tag">Product Catalog</span>
+            <h2 class="section-title">Build Your Security Ecosystem</h2>
+            <p class="section-subtitle">Customize individual hardware tiers, AI processors, and camera arrays to configure a tailor-made system for your specific retail footprint.</p>
+        </div>
+
+        <div class="product-showcase-container">
+            <div class="products-grid" id="product-list-grid">
+                <!-- Product cards are rendered dynamically by JS to allow configuration sliders/options & dynamic prices -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: CONTACT & FAQ -->
+    <section id="contact">
+        <div class="section-header">
+            <span class="section-tag">Get in Touch</span>
+            <h2 class="section-title">Deploy RetailLift in Your Store</h2>
+            <p class="section-subtitle">Connect with our integration specialists to schedule a live demo or get assistance configuring your security hardware architecture.</p>
+        </div>
+
+        <div class="contact-section-grid">
+            <div class="contact-info-column">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="contact-card-details">
+                        <h4>Corporate Headquarters</h4>
+                        <p>RetailLift Office, Kashmir Road<br>Sialkot, Punjab, Pakistan</p>
+                    </div>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="contact-card-details">
+                        <h4>Direct Inquiries</h4>
+                        <p>Sales: +1 (800) 555-LIFT<br>Technical Support: support@retaillift.ai</p>
+                    </div>
+                </div>
+
+                <!-- Coordinates Radar Map -->
+                <div class="coordinates-map">
+                    <div class="map-radar-circle"></div>
+                    <div class="map-radar-circle" style="width: 100px; height: 100px; animation-duration: 8s;"></div>
+                    <div class="map-ping"></div>
+                    <div class="map-label">COORD: 32.4972° N, 74.5361° E (Sialkot, PK)</div>
+                </div>
+            </div>
+
+            <!-- Glassmorphic Form Card -->
+            <div class="contact-form-card">
+                <h3>Request Consultation</h3>
+                <p>Fill out the parameters below and a security engineer will reach out within 24 business hours.</p>
+                
+                <form id="consultation-form" novalidate>
+                    <div class="form-group">
+                        <input type="text" id="contact-name" class="form-input" placeholder=" " required>
+                        <label for="contact-name" class="form-label">Full Name</label>
+                        <span class="form-error" id="error-name">Please enter your name</span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="email" id="contact-email" class="form-input" placeholder=" " required>
+                        <label for="contact-email" class="form-label">Business Email</label>
+                        <span class="form-error" id="error-email">Please enter a valid email address</span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" id="contact-store" class="form-input" placeholder=" ">
+                        <label for="contact-store" class="form-label">Store Name / Company (Optional)</label>
+                    </div>
+
+                    <div class="form-group textarea">
+                        <textarea id="contact-message" class="form-input" placeholder=" " required></textarea>
+                        <label for="contact-message" class="form-label">Security Requirements / Message</label>
+                        <span class="form-error" id="error-message">Please write a brief description of your needs</span>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fa-solid fa-paper-plane"></i> Send Inquiry
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- FAQ ACCORDION -->
+        <div class="faq-container">
+            <div class="faq-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Quick answers regarding installation, compliance, and custom hardware setups.</p>
+            </div>
+            
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Does RetailLift require buying new security cameras?</span>
+                        <i class="fa-solid fa-plus faq-toggle-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            No. RetailLift is designed to run on top of your existing IP camera infrastructure. It connects to your camera network via RTSP streams, requiring only our local AI Processing computer to decode and analyze the feeds.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How does the system notify store employees of shoplifting?</span>
+                        <i class="fa-solid fa-plus faq-toggle-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Notifications can be dispatched via push alerts on our dedicated RetailLift employee mobile app, smart watches, text messages, or direct auditory announcements through wireless security earpieces.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Is customer data privacy protected?</span>
+                        <i class="fa-solid fa-plus faq-toggle-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Yes. RetailLift focuses strictly on behavior kinetics and suspicious skeletal movement patterns (like grabbing and placing items in personal bags). We do not record facial recognition signatures or store identifiable personal data, making it fully compliant with GDPR and CCPA.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What happens if the internet connection is disrupted?</span>
+                        <i class="fa-solid fa-plus faq-toggle-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Since all AI inference is performed locally on the RetailLift Edge Processing computer, shoplifting detection and instant in-store notification systems remain 100% functional even during complete internet outages. Only cloud analytics sync is paused until connectivity is restored.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOPPING CART SIDEBAR DRAWER -->
+    <div class="cart-drawer-backdrop" id="cart-drawer-backdrop"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3>Your Configuration</h3>
+            <button class="cart-close-btn" id="cart-close-btn" aria-label="Close Cart">&times;</button>
+        </div>
+        
+        <div class="cart-items-container" id="cart-items-list">
+            <!-- Rendered by JS -->
+            <p class="cart-empty-msg">Your configuration cart is empty. Add customizable products below to build your quote.</p>
+        </div>
+        
+        <div class="cart-footer">
+            <div class="cart-summary-row">
+                <span>Hardware & Software Subtotal</span>
+                <span id="cart-subtotal">Rs. 0</span>
+            </div>
+            <div class="cart-summary-row">
+                <span>Est. Monthly SaaS Sync Fee</span>
+                <span id="cart-saas">Rs. 0/mo</span>
+            </div>
+            <div class="cart-summary-row total">
+                <span>Estimated Quote</span>
+                <span id="cart-total-quote">Rs. 0</span>
+            </div>
+            <button class="cart-checkout-btn" id="cart-checkout-btn">
+                <i class="fa-solid fa-circle-check"></i> Submit Quote Request
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-msg" id="toast-notification">
+        <div class="toast-icon">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div class="toast-details">
+            <h5 id="toast-title">Added to Configuration</h5>
+            <p id="toast-body">Product has been successfully added to your cart.</p>
+        </div>
+    </div>
+
+    <!-- CONFIRMATION MODAL -->
+    <div class="modal-overlay" id="checkout-modal-overlay">
+        <div class="modal-card">
+            <div class="modal-success-badge">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3>Quote Request Received</h3>
+            <p>Your security system configuration has been cataloged. A RetailLift integration engineer will review your store footprint and follow up with a finalized deployment timeline.</p>
+            <button class="btn-cta" id="modal-close-btn" style="margin: 0 auto;">
+                <i class="fa-solid fa-house"></i> Return to Dashboard
+            </button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#dashboard" class="logo-link" style="margin-bottom: 0.5rem;">
+                    <span class="logo-container">
+                        <img src="assets/logo.png" alt="RetailLift Logo" class="logo-img">
+                    </span>
+                    <span class="logo-text">RetailLift</span>
+                </a>
+                <p>Protecting brick-and-mortar assets through secure, state-of-the-art behavior analytics and edge computer vision.</p>
+                <div class="footer-socials">
+                    <a href="#" class="social-link" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="social-link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h5>Product</h5>
+                <ul class="footer-links">
+                    <li><a href="#dashboard">AI Features</a></li>
+                    <li><a href="#results">Results & Stats</a></li>
+                    <li><a href="#products">Pricing Configurator</a></li>
+                    <li><a href="#contact">Demo Request</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h5>Company</h5>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Security Audits</a></li>
+                    <li><a href="#">Ethics Statement</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h5>Resources</h5>
+                <ul class="footer-links">
+                    <li><a href="#">White Papers</a></li>
+                    <li><a href="#">API Documentation</a></li>
+                    <li><a href="#">Compliance Center</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 RetailLift Technologies Inc. All rights reserved.</p>
+            <p>Designed for secure in-store shrinkage deterrence. Compliance certified.</p>
+        </div>
+    </footer>
+
+    <!-- Frontend logic -->
+    <script src="index.js"></script>
+</body>
+</html>
