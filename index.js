@@ -40,9 +40,9 @@ const PRODUCTS_DATA = [
                 label: "Camera Bundle",
                 type: "select",
                 choices: [
-                    { name: "4x AI Cameras Bundle", addPrice: 0, addSaaS: 0 },
-                    { name: "8x AI Cameras Bundle", addPrice: 35000, addSaaS: 0 },
-                    { name: "16x AI Cameras Bundle", addPrice: 95000, addSaaS: 0 }
+                    { name: "Basic: 3 AI Cameras Bundle", addPrice: 0, addSaaS: 0 },
+                    { name: "Extended: 5 AI Cameras Bundle", addPrice: 20000, addSaaS: 0 },
+                    { name: "Pro: 10 AI Cameras Bundle", addPrice: 70000, addSaaS: 0 }
                 ]
             }
         ]
@@ -124,9 +124,9 @@ const PRODUCTS_DATA = [
                 label: "Installation Scope",
                 type: "select",
                 choices: [
-                    { name: "Up to 4 Cameras", addPrice: 0, addSaaS: 0 },
-                    { name: "Up to 8 Cameras", addPrice: 1500, addSaaS: 0 },
-                    { name: "Up to 16 Cameras", addPrice: 3500, addSaaS: 0 }
+                    { name: "Basic: Up to 3 Cameras", addPrice: 0, addSaaS: 0 },
+                    { name: "Extended: Up to 5 Cameras", addPrice: 1000, addSaaS: 0 },
+                    { name: "Pro: Up to 10 Cameras", addPrice: 3000, addSaaS: 0 }
                 ]
             }
         ]
@@ -164,6 +164,31 @@ const CHART_DATA = {
 // State Variables
 let cart = [];
 let activeChartTab = "detections";
+let billingCycle = "monthly";
+
+const SUBSCRIPTIONS_DATA = {
+    basic: {
+        id: "sub-basic",
+        name: "RetailLift Basic Subscription",
+        monthlyPrice: 25000,
+        yearlyPrice: 250000,
+        cameras: "Up to 3"
+    },
+    extended: {
+        id: "sub-extended",
+        name: "RetailLift Extended Subscription",
+        monthlyPrice: 40000,
+        yearlyPrice: 400000,
+        cameras: "Up to 5"
+    },
+    pro: {
+        id: "sub-pro",
+        name: "RetailLift Pro Subscription",
+        monthlyPrice: 65000,
+        yearlyPrice: 650000,
+        cameras: "Up to 10"
+    }
+};
 
 // ==========================================
 // 2. DOCUMENT READY & EVENT REGISTER
@@ -271,6 +296,31 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCartUI();
     });
 
+    // Billing Toggle Listener
+    const billingToggleBtn = document.getElementById("billing-toggle-btn");
+    if (billingToggleBtn) {
+        billingToggleBtn.addEventListener("click", () => {
+            const isYearly = billingToggleBtn.classList.toggle("yearly");
+            billingCycle = isYearly ? "yearly" : "monthly";
+            
+            // Update labels active class
+            document.getElementById("toggle-label-monthly").classList.toggle("active", !isYearly);
+            document.getElementById("toggle-label-yearly").classList.toggle("active", isYearly);
+            
+            // Update price displays on cards
+            updatePricingDisplay();
+        });
+    }
+
+    // Select Plan Buttons Listener
+    const selectPlanBtns = document.querySelectorAll(".btn-select-plan");
+    selectPlanBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const planKey = e.currentTarget.getAttribute("data-plan");
+            addSubscriptionToCart(planKey);
+        });
+    });
+
     // Initializations
     renderProducts();
     updateCartUI();
@@ -281,7 +331,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Scroll Highlighting Nav Link active class
 function highlightActiveSection() {
-    const sections = ["dashboard", "results", "products", "contact"];
+    const sections = ["dashboard", "results", "pricing", "products", "contact"];
     const scrollPos = window.scrollY + 200;
 
     sections.forEach(id => {
@@ -663,11 +713,16 @@ function updateCartUI() {
                     ${item.monthlyFee > 0 ? `<span style="font-size: 0.75rem; color: var(--text-muted);">+ Rs. ${item.monthlyFee}/mo</span>` : ""}
                 </div>
                 <div class="cart-item-actions">
-                    <div class="quantity-controls">
-                        <button class="qty-btn" onclick="adjustCartQty('${item.id}', -1)">-</button>
-                        <span class="qty-val">${item.quantity}</span>
-                        <button class="qty-btn" onclick="adjustCartQty('${item.id}', 1)">+</button>
-                    </div>
+                    ${item.productId.startsWith("sub-") 
+                        ? `<span style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; padding: 0.25rem 0.6rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px;">Subscription Plan</span>`
+                        : `
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="adjustCartQty('${item.id}', -1)">-</button>
+                            <span class="qty-val">${item.quantity}</span>
+                            <button class="qty-btn" onclick="adjustCartQty('${item.id}', 1)">+</button>
+                        </div>
+                        `
+                    }
                     <button class="cart-item-remove" onclick="removeCartItem('${item.id}')">
                         <i class="fa-solid fa-trash-can"></i> Remove
                     </button>
@@ -1182,4 +1237,80 @@ function showToast(title, body, type = "success") {
     setTimeout(() => {
         toast.classList.remove("show");
     }, 4000);
+}
+
+// Subscription Pricing helper functions
+function updatePricingDisplay() {
+    const basicMain = document.getElementById("basic-main-price");
+    const basicAlt = document.getElementById("basic-alt-price");
+    const extendedMain = document.getElementById("extended-main-price");
+    const extendedAlt = document.getElementById("extended-alt-price");
+    const proMain = document.getElementById("pro-main-price");
+    const proAlt = document.getElementById("pro-alt-price");
+
+    if (billingCycle === "monthly") {
+        if (basicMain) basicMain.innerHTML = `<span class="currency">PKR</span> <span class="amount">25,000</span> <span class="period">/month</span>`;
+        if (basicAlt) basicAlt.textContent = `PKR 250,000 /year (save PKR 50,000)`;
+        
+        if (extendedMain) extendedMain.innerHTML = `<span class="currency">PKR</span> <span class="amount">40,000</span> <span class="period">/month</span>`;
+        if (extendedAlt) extendedAlt.textContent = `PKR 400,000 /year (save PKR 80,000)`;
+        
+        if (proMain) proMain.innerHTML = `<span class="currency">PKR</span> <span class="amount">65,000</span> <span class="period">/month</span>`;
+        if (proAlt) proAlt.textContent = `PKR 650,000 /year (save PKR 130,000)`;
+    } else {
+        if (basicMain) basicMain.innerHTML = `<span class="currency">PKR</span> <span class="amount">250,000</span> <span class="period">/year</span>`;
+        if (basicAlt) basicAlt.textContent = `PKR 25,000 /month (save PKR 50,000 on yearly billing)`;
+        
+        if (extendedMain) extendedMain.innerHTML = `<span class="currency">PKR</span> <span class="amount">400,000</span> <span class="period">/year</span>`;
+        if (extendedAlt) extendedAlt.textContent = `PKR 40,000 /month (save PKR 80,000 on yearly billing)`;
+        
+        if (proMain) proMain.innerHTML = `<span class="currency">PKR</span> <span class="amount">650,000</span> <span class="period">/year</span>`;
+        if (proAlt) proAlt.textContent = `PKR 65,000 /month (save PKR 130,000 on yearly billing)`;
+    }
+}
+
+function addSubscriptionToCart(planKey) {
+    const plan = SUBSCRIPTIONS_DATA[planKey];
+    if (!plan) return;
+
+    let price = 0;
+    let monthlyFee = 0;
+    let configuration = "";
+
+    if (billingCycle === "monthly") {
+        price = 0;
+        monthlyFee = plan.monthlyPrice;
+        configuration = `Billing Cycle: Monthly (${plan.cameras} cameras)`;
+    } else {
+        price = plan.yearlyPrice;
+        monthlyFee = 0;
+        configuration = `Billing Cycle: Yearly (${plan.cameras} cameras)`;
+    }
+
+    // Filter out existing subscription plan from cart (only one subscription is active at a time)
+    const hadSubscription = cart.some(item => item.productId.startsWith("sub-"));
+    cart = cart.filter(item => !item.productId.startsWith("sub-"));
+
+    // Add new subscription
+    cart.push({
+        id: `${plan.id}-${Date.now()}`,
+        productId: plan.id,
+        name: plan.name,
+        price: price,
+        monthlyFee: monthlyFee,
+        configuration: configuration,
+        quantity: 1
+    });
+
+    if (hadSubscription) {
+        showToast("Subscription Updated", `Your quote has been updated to ${plan.name} (${billingCycle === 'monthly' ? 'Monthly' : 'Yearly'}).`);
+    } else {
+        showToast("Added to Cart", `${plan.name} has been added to your system quote.`);
+    }
+
+    updateCartUI();
+
+    // Auto-slide open the cart side drawer
+    document.getElementById("cart-drawer").classList.add("open");
+    document.getElementById("cart-drawer-backdrop").classList.add("open");
 }
